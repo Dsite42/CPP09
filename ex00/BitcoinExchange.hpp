@@ -6,7 +6,7 @@
 /*   By: cgodecke <cgodecke@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 10:21:37 by cgodecke          #+#    #+#             */
-/*   Updated: 2024/01/19 12:57:02 by cgodecke         ###   ########.fr       */
+/*   Updated: 2024/01/19 14:39:06 by cgodecke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,9 @@ class BitcoinExchange
 	private:
 		std::map<std::string, double>	_quotes;
 		void _readDatabase();
+		bool _validateDate(std::string const &date);
+		double _validatePrice(std::string const &price);
+		void _multiplyWithQuote(std::string const &date, double price);
 	
 	public:
 		BitcoinExchange();
@@ -33,6 +36,7 @@ class BitcoinExchange
 		~BitcoinExchange();
 
 		std::map<std::string, double> const &getQuotes() const;
+		void execute(char const *fileName);
 
 
 		// Exceptions which printing error message
