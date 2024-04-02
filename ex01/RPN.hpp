@@ -6,7 +6,7 @@
 /*   By: cgodecke <cgodecke@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/20 15:08:27 by cgodecke          #+#    #+#             */
-/*   Updated: 2024/01/20 17:05:55 by cgodecke         ###   ########.fr       */
+/*   Updated: 2024/04/02 19:08:54 by cgodecke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,12 @@
 class RPN
 {
 	private:
-		std::stack<int> _stack;
-		void _executeStack(int (RPN::*f)(int, int));
-		int _plus(int a, int b);
-		int _minus(int a, int b);
-		int _multiply(int a, int b);
-		int _divide(int a, int b);
+		std::stack<double> _stack;
+		void _executeStack(double (RPN::*f)(double, double));
+		double _plus(double a, double b);
+		double _minus(double a, double b);
+		double _multiply(double a, double b);
+		double _divide(double a, double b);
 
 	public:
 		//Constructors
@@ -38,7 +38,7 @@ class RPN
 		~RPN();
 
 		//Getters
-		int getResult() const;
+		double getResult() const;
 
 
 		//Exceptions

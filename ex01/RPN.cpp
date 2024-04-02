@@ -6,7 +6,7 @@
 /*   By: cgodecke <cgodecke@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/20 15:32:32 by cgodecke          #+#    #+#             */
-/*   Updated: 2024/01/20 17:05:58 by cgodecke         ###   ########.fr       */
+/*   Updated: 2024/04/02 19:14:54 by cgodecke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ RPN::RPN(const std::string &inputStr)
 
 	while (std::getline(ss, token, ' '))
 	{
-		if (token.length() == 1 && isdigit(token[0]))
+		if ((token.length() == 1 && isdigit(token[0])) || (token.length() == 2 && token[0] == '-' && isdigit(token[1])))
 		{
 			std::stringstream(token) >> num;
 			_stack.push(num);
@@ -39,7 +39,7 @@ RPN::RPN(const std::string &inputStr)
 		else if (token == "/")
 			_executeStack(&RPN::_divide);
 		else
-			throw RPN::invalidArgument("Invalid argument: " + token);
+			throw RPN::invalidArgument("Invalid argumentt: " + token);
 	}
 }
 
@@ -74,7 +74,7 @@ RPN::divisionByZero::divisionByZero(const std::string& msg) : std::runtime_error
 
 
 // Getters
-int RPN::getResult() const
+double RPN::getResult() const
 {
 	if (_stack.empty())
 		throw RPN::emptyStack("Empty stack");
@@ -84,10 +84,10 @@ int RPN::getResult() const
 }
 
 // Private methods
-void RPN::_executeStack(int (RPN::*f)(int, int))
+void RPN::_executeStack(double (RPN::*f)(double, double))
 {
-	int a;
-	int b;
+	double a;
+	double b;
 
 	if (_stack.size() < 2)
 		throw RPN::emptyStack("Empty stack");
@@ -98,22 +98,22 @@ void RPN::_executeStack(int (RPN::*f)(int, int))
 	_stack.push((this->*f)(a, b));
 }
 
-int RPN::_plus(int a, int b)
+double RPN::_plus(double a, double b)
 {
 	return (b + a);
 }
 
-int RPN::_minus(int a, int b)
+double RPN::_minus(double a, double b)
 {
 	return (b - a);
 }
 
-int RPN::_multiply(int a, int b)
+double RPN::_multiply(double a, double b)
 {
 	return (b * a);
 }
 
-int RPN::_divide(int a, int b)
+double RPN::_divide(double a, double b)
 {
 	if (a == 0)
 		throw RPN::divisionByZero("Division by zero");
