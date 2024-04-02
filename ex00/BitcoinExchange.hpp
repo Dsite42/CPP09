@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   BitcoinExchange.hpp                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cgodecke <cgodecke@student.42wolfsburg.    +#+  +:+       +#+        */
+/*   By: cgodecke <cgodecke@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 10:21:37 by cgodecke          #+#    #+#             */
-/*   Updated: 2024/01/19 14:39:06 by cgodecke         ###   ########.fr       */
+/*   Updated: 2024/04/02 18:01:59 by cgodecke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,9 +76,5 @@ class BitcoinExchange
 				}
 		};
 };
-		
-		
-
-
 
 #endif

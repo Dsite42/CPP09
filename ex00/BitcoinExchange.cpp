@@ -6,7 +6,7 @@
 /*   By: cgodecke <cgodecke@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 10:42:20 by cgodecke          #+#    #+#             */
-/*   Updated: 2024/01/19 14:45:49 by cgodecke         ###   ########.fr       */
+/*   Updated: 2024/04/02 18:06:18 by cgodecke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 
 // Constructors
 
-// Constructor which is reading 'data.csv' and filling the map. If an error accours during opening the file thow exeption 'Could not open file' and if the key value dont has the format Year-Month-Day throw exeption 'Invalid date format'. Shall compliant with c++98.
 BitcoinExchange::BitcoinExchange()
 {
 	_readDatabase();
@@ -97,7 +96,8 @@ void BitcoinExchange::execute(char const *fileName)
 	if (line != "date | value")
 		throw InvalidColumnFormat();
 
-	while (std::getline(file, line)) {
+	while (std::getline(file, line))
+	{
 		std::string date;
 		std::string valueStr;
 		double priceValue;
@@ -109,7 +109,10 @@ void BitcoinExchange::execute(char const *fileName)
 		if (!date.empty())
 			date = date.erase(date.length() -1);
 		if (_validateDate(date) == false)
+		{
 			std::cout << "Error: bad input => " << date << std::endl;
+			continue;
+		}
 
 		// Parse price using istringstream
 		if(!valueStr.empty())
@@ -123,7 +126,7 @@ void BitcoinExchange::execute(char const *fileName)
 	file.close();
 }
 
-// Validate date format that it contains only numbers and '-'. And the month block is between 01 and 12 and the day block is between 01 and 31. Shall compliant with c++98.
+// Validate date format that it contains only numbers and '-'. And the month block is between 01 and 12 and the day block is between 01 and 31.
 bool BitcoinExchange::_validateDate(std::string const &date)
 {
 	if (date.size() != 10 || date[4] != '-' || date[7] != '-')
@@ -136,14 +139,15 @@ bool BitcoinExchange::_validateDate(std::string const &date)
 			return (false);
 	}
 
+	//std::cout << "date: " << date << std::endl;
 	if (date[5] == '0' && date[6] == '0') 
 		return (false);
-	if (date[5] == '1' && date[6] > '2')
+	if ((date[5] == '1' && date[6] > '2') || date[5] > '1')
 		return (false);
 
 	if (date[8] == '0' && date[9] == '0')
 		return (false);
-	if (date[8] == '3' && date[9] > '1')
+	if ((date[8] == '3' && date[9] > '1') || date[8] > '3')
 		return (false);
 	
 	return (true);
@@ -174,7 +178,7 @@ double BitcoinExchange::_validatePrice(std::string const &valueStr)
 	return (priceValue);
 }
 
-// _multiplyWithQuote multiplies the price with the quote of the date. If the date used in the input does not exist in your DB then you must use the closest date contained in your DB. Be careful to use the lower date and not the upper one.
+// _multiplyWithQuote multiplies the price with the quote of the date. If the date used in the input does not exist in the DB then the closest date contained in the DB is used. (lower date)
 void BitcoinExchange::_multiplyWithQuote(std::string const &date, double price)
 {
 	std::map<std::string, double>::iterator it = _quotes.find(date);
