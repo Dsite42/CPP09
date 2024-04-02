@@ -6,7 +6,7 @@
 /*   By: cgodecke <cgodecke@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 10:42:20 by cgodecke          #+#    #+#             */
-/*   Updated: 2024/04/02 18:06:18 by cgodecke         ###   ########.fr       */
+/*   Updated: 2024/04/02 18:37:03 by cgodecke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,32 +51,23 @@ void BitcoinExchange::_readDatabase()
 
         std::string line;
 
-        // Check if first line is date,exchange_rate
+        //// Check if first line is date,exchange_rate
         std::getline(file, line);
         if (line != "date,exchange_rate")
             throw InvalidColumnFormat();
 
-        while (std::getline(file, line)) {
+        while (std::getline(file, line))
+		{
             std::string date, price;
             std::istringstream ss(line);
             std::getline(ss, date, ',');
             std::getline(ss, price, ',');
 
-            // Validate date format. 	// der check muss nur beim input file gemacht werden nicht bei der database
-            if (date.size() != 10 || date[4] != '-' || date[7] != '-')
-                throw InvalidDateFormat();
-
             // Parse price using istringstream
             double priceValue;
             std::istringstream priceStream(price);
-			// der check muss nur beim input file gemacht werden nicht bei der database
-            if (!(priceStream >> priceValue) || priceValue < 0 || priceValue > 10000000)
-			{
-				std::cout << "priceValue: " << priceValue << std::endl;
+            if (!(priceStream >> priceValue))
 				throw InvalidPriceFormat();
-			}
-
-            // Store the valid data
             _quotes[date] = priceValue;
         }
 
@@ -139,7 +130,6 @@ bool BitcoinExchange::_validateDate(std::string const &date)
 			return (false);
 	}
 
-	//std::cout << "date: " << date << std::endl;
 	if (date[5] == '0' && date[6] == '0') 
 		return (false);
 	if ((date[5] == '1' && date[6] > '2') || date[5] > '1')

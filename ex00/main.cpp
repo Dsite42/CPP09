@@ -6,7 +6,7 @@
 /*   By: cgodecke <cgodecke@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 10:24:49 by cgodecke          #+#    #+#             */
-/*   Updated: 2024/01/19 13:17:00 by cgodecke         ###   ########.fr       */
+/*   Updated: 2024/04/02 18:38:21 by cgodecke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,28 +20,16 @@ int main(int argc, char **argv)
 		return (1);
 	}
 	else
-	
-
-
 
 	try
 	{
 		BitcoinExchange exchange;
-		// print all quotes
-		std::map<std::string, double> const &quotes = exchange.getQuotes();
-		for (std::map<std::string, double>::const_iterator it = quotes.begin(); it != quotes.end(); ++it)
-			std::cout << it->first << " => " << it->second << '\n';
-
-		// execute the file
 		exchange.execute(argv[1]);
 	}
 	catch (std::exception &e)
 	{
 		std::cout << e.what() << std::endl;
 	}
-
-	
-
 
 	return (0);
 }
