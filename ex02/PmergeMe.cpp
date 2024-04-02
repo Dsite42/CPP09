@@ -6,7 +6,7 @@
 /*   By: cgodecke <cgodecke@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/29 20:00:26 by cgodecke          #+#    #+#             */
-/*   Updated: 2024/03/29 20:28:44 by cgodecke         ###   ########.fr       */
+/*   Updated: 2024/04/02 16:05:40 by cgodecke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void print_before(char **argv)
 	{
 		std::string input = argv[i];
 		std::cout << input << " ";
-		if (input.size() > 11 || std::atol(input.c_str()) > INT_MAX || std::atol(input.c_str()) < 0)
+		if (input.size() > 10 || std::atol(input.c_str()) > INT_MAX || std::atol(input.c_str()) < 0)
 			error = 1;
 		for (size_t j = 0; j < input.size(); j++)
 		{
@@ -115,8 +115,8 @@ void init_main_chain(std::list<int> *main_chain, std::list<std::pair<int, int>> 
 void binary_search_insertion(std::list<int> *main_chain, std::list<int>::iterator end, int val)
 {
 	std::list<int>::iterator place_to_insert = std::lower_bound(main_chain->begin(), end, val);
-	// if the value is the same as the end of the slice or larger, increment the iterator to insert after the end
-	if (place_to_insert == end)
+	// if the value is the same as the end of the slice or larger, increment the iterator to insert after the end if it's not the end of the main chain
+	if (place_to_insert == end && main_chain->end() != end)
 		place_to_insert++;
 	main_chain->insert(place_to_insert, val);
 	
@@ -213,6 +213,7 @@ void insert_into_main_chain(std::list<std::pair<int, int>> listy, std::list<int>
 
 	if (additional_value != -1)
 	{
+		std::cout << "additional_value: " << additional_value << std::endl;
 		binary_search_insertion(main_chain, main_chain->end(), additional_value);
 	}
 }
@@ -289,7 +290,7 @@ void init_main_chain2(std::deque<int> *main_chain, std::deque<std::pair<int, int
 void binary_search_insertion2(std::deque<int> *main_chain, std::deque<int>::iterator end, int val)
 {
 	std::deque<int>::iterator place_to_insert = std::lower_bound(main_chain->begin(), end, val);
-	if (place_to_insert == end)
+	if (place_to_insert == end && main_chain->end() != end)
 		place_to_insert++;
 	main_chain->insert(place_to_insert, val);
 }
@@ -480,6 +481,10 @@ void print_after2(std::deque<int> main_chain)
 
 
 
-
+	The Role of Jacobsthal Numbers
+	Jacobsthal numbers play a crucial role in determining the sizes of the sublists for initial partitioning and 
+	the order in which these sublists are merged. Their properties allow for an efficient balance between the number 
+	of sublists and the sizes of these sublists, which is crucial for minimizing comparisons during the merge-insertion process. 
+	
 	
 */
