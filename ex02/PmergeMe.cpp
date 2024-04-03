@@ -6,7 +6,7 @@
 /*   By: cgodecke <cgodecke@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/29 20:00:26 by cgodecke          #+#    #+#             */
-/*   Updated: 2024/04/03 13:26:39 by cgodecke         ###   ########.fr       */
+/*   Updated: 2024/04/03 15:01:22 by cgodecke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void print_before(char **argv)
 
 ////////////////////////// List functions //////////////////////////////////////
 
-void create_pairs(std::list<std::pair<int, int>> *listy, char **argv, int *additional_value)
+void create_pairs(std::list<std::pair<int, int> > *listy, char **argv, int *additional_value)
 {
 	int i = 1;
 
@@ -68,9 +68,9 @@ void create_pairs(std::list<std::pair<int, int>> *listy, char **argv, int *addit
 	}
 }
 
-void sort_pairs(std::list<std::pair<int, int>> *listy)
+void sort_pairs(std::list<std::pair<int, int> > *listy)
 {
-	for (std::list<std::pair<int, int>>::iterator it = listy->begin(); it != listy->end(); ++it)
+	for (std::list<std::pair<int, int> >::iterator it = listy->begin(); it != listy->end(); ++it)
 	{
 		if (it->first > it->second)
 		{
@@ -82,7 +82,7 @@ void sort_pairs(std::list<std::pair<int, int>> *listy)
 }
 
 // Do merge sort with recursive approach splitting the list in half each time and merging them back together
-void mergeSort(std::list<std::pair<int, int>>::iterator start, std::list<std::pair<int, int>>::iterator end, size_t size)
+void mergeSort(std::list<std::pair<int, int> >::iterator start, std::list<std::pair<int, int> >::iterator end, size_t size)
 {
 	if (size == 0 && start != end)
 		size = std::distance(start, end);
@@ -91,8 +91,8 @@ void mergeSort(std::list<std::pair<int, int>>::iterator start, std::list<std::pa
 
 	size_t firstHalf = size / 2;
 	size_t secondHalf = size - firstHalf;
-	std::list<std::pair<int, int>>::iterator center = start;
-	// Move the iterator to the center of the list
+	std::list<std::pair<int, int> >::iterator center = start;
+	// Move the iterator to the center of the listalways
 	std::advance(center, firstHalf);
 
 	mergeSort(start, center, firstHalf);
@@ -100,9 +100,9 @@ void mergeSort(std::list<std::pair<int, int>>::iterator start, std::list<std::pa
 	std::inplace_merge(start, center, end, &custom_cmp);
 }
 
-void init_main_chain(std::list<int> *main_chain, std::list<std::pair<int, int>> listy)
+void init_main_chain(std::list<int> *main_chain, std::list<std::pair<int, int> > listy)
 {
-	for (std::list<std::pair<int, int>>::iterator it = listy.begin(); it != listy.end(); ++it)
+	for (std::list<std::pair<int, int> >::iterator it = listy.begin(); it != listy.end(); ++it)
 		main_chain->push_back(it->second);
 
 	// the first number of pend can always be inserted as the first number in the main chain.
@@ -115,9 +115,6 @@ void init_main_chain(std::list<int> *main_chain, std::list<std::pair<int, int>> 
 void binary_search_insertion(std::list<int> *main_chain, std::list<int>::iterator end, int val)
 {
 	std::list<int>::iterator place_to_insert = std::lower_bound(main_chain->begin(), end, val);
-	// if the value is the same as the end of the slice or larger, increment the iterator to insert after the end if it's not the end of the main chain
-	if (place_to_insert == end && main_chain->end() != end)
-		place_to_insert++;
 	main_chain->insert(place_to_insert, val);
 	
 	/*
@@ -133,14 +130,14 @@ void binary_search_insertion(std::list<int> *main_chain, std::list<int>::iterato
 }
 
 
-void insert_into_main_chain(std::list<std::pair<int, int>> listy, std::list<int> *main_chain, int additional_value)
+void insert_into_main_chain(std::list<std::pair<int, int> > listy, std::list<int> *main_chain, int additional_value)
 {
 	size_t Jacobsthal[] = {1, 3, 5, 11, 21, 43, 85, 171, 341, 683, 1365, 2731, 5461, 10923, 21845, 43691, 87381, 174763, 349525, 699051, 1398101, 2796203, 5592405, 11184811, 22369621, 44739243, 89478485, 178956971, 357913941, 715827883, 1431655765};
 	int jacobsthal_idx = 1;
 
 	std::list<int>::iterator slice_delim_it;
-	std::list<std::pair<int, int>>::iterator pair_it;
-	std::list<std::pair<int, int>>::iterator last_jacob_it = listy.begin();
+	std::list<std::pair<int, int> >::iterator pair_it;
+	std::list<std::pair<int, int> >::iterator last_jacob_it = listy.begin();
 
 	while (Jacobsthal[jacobsthal_idx] <= listy.size())
 	{
@@ -153,7 +150,6 @@ void insert_into_main_chain(std::list<std::pair<int, int>> listy, std::list<int>
 		while (Jacobsthal[jacobsthal_idx] - insertion_counter > Jacobsthal[jacobsthal_idx - 1])
 		{
 			slice_delim_it = std::find(main_chain->begin(), main_chain->end(), pair_it->second);
-			slice_delim_it--;
 			binary_search_insertion(main_chain, slice_delim_it, pair_it->first);
 			pair_it--;
 			insertion_counter++;
@@ -170,7 +166,6 @@ void insert_into_main_chain(std::list<std::pair<int, int>> listy, std::list<int>
 		while (pair_it != last_jacob_it)
 		{
 			slice_delim_it = std::find(main_chain->begin(), main_chain->end(), pair_it->second);
-			slice_delim_it--;
 			binary_search_insertion(main_chain, slice_delim_it, pair_it->first);
 			pair_it--;
 		}
@@ -178,7 +173,6 @@ void insert_into_main_chain(std::list<std::pair<int, int>> listy, std::list<int>
 
 	if (additional_value != -1)
 	{
-		std::cout << "additional_value: " << additional_value << std::endl;
 		binary_search_insertion(main_chain, main_chain->end(), additional_value);
 	}
 }
@@ -195,7 +189,7 @@ void print_after(std::list<int> main_chain)
 
 ////////////////////////// Deque functions /////////////////////////////////////
 
-void create_pairs2(std::deque<std::pair<int, int>> *dequey, char **argv, int *additional_value)
+void create_pairs2(std::deque<std::pair<int, int> > *dequey, char **argv, int *additional_value)
 {
 	int i = 1;
 
@@ -215,9 +209,9 @@ void create_pairs2(std::deque<std::pair<int, int>> *dequey, char **argv, int *ad
 	}
 }
 
-void sort_pairs2(std::deque<std::pair<int, int>> *dequey)
+void sort_pairs2(std::deque<std::pair<int, int> > *dequey)
 {
-	for (std::deque<std::pair<int, int>>::iterator it = dequey->begin(); it != dequey->end(); ++it)
+	for (std::deque<std::pair<int, int> >::iterator it = dequey->begin(); it != dequey->end(); ++it)
 	{
 		if (it->first > it->second)
 		{
@@ -228,7 +222,7 @@ void sort_pairs2(std::deque<std::pair<int, int>> *dequey)
 	}
 }
 
-void mergeSort2(std::deque<std::pair<int, int>>::iterator start, std::deque<std::pair<int, int>>::iterator end, size_t size)
+void mergeSort2(std::deque<std::pair<int, int> >::iterator start, std::deque<std::pair<int, int> >::iterator end, size_t size)
 {
 	if (size == 0 && start != end)
 		size = std::distance(start, end);
@@ -237,16 +231,16 @@ void mergeSort2(std::deque<std::pair<int, int>>::iterator start, std::deque<std:
 
 	size_t firstHalf = size / 2;
 	size_t secondHalf = size - firstHalf;
-	std::deque<std::pair<int, int>>::iterator center = start + firstHalf;
+	std::deque<std::pair<int, int> >::iterator center = start + firstHalf;
 
 	mergeSort2(start, center, firstHalf);
 	mergeSort2(center, end, secondHalf);
 	std::inplace_merge(start, center, end, &custom_cmp);
 }
 
-void init_main_chain2(std::deque<int> *main_chain, std::deque<std::pair<int, int>> dequey)
+void init_main_chain2(std::deque<int> *main_chain, std::deque<std::pair<int, int> > dequey)
 {
-	for (std::deque<std::pair<int, int>>::iterator it = dequey.begin(); it != dequey.end(); ++it)
+	for (std::deque<std::pair<int, int> >::iterator it = dequey.begin(); it != dequey.end(); ++it)
 		main_chain->push_back(it->second);
 	if (!dequey.empty())
 		main_chain->push_front(dequey.begin()->first);
@@ -255,19 +249,17 @@ void init_main_chain2(std::deque<int> *main_chain, std::deque<std::pair<int, int
 void binary_search_insertion2(std::deque<int> *main_chain, std::deque<int>::iterator end, int val)
 {
 	std::deque<int>::iterator place_to_insert = std::lower_bound(main_chain->begin(), end, val);
-	if (place_to_insert == end && main_chain->end() != end)
-		place_to_insert++;
 	main_chain->insert(place_to_insert, val);
 }
 
-void insert_into_main_chain2(std::deque<std::pair<int, int>> dequey, std::deque<int> *main_chain, int additional_value)
+void insert_into_main_chain2(std::deque<std::pair<int, int> > dequey, std::deque<int> *main_chain, int additional_value)
 {
 	size_t Jacobsthal[] = {1, 3, 5, 11, 21, 43, 85, 171, 341, 683, 1365, 2731, 5461, 10923, 21845, 43691, 87381, 174763, 349525, 699051, 1398101, 2796203, 5592405, 11184811, 22369621, 44739243, 89478485, 178956971, 357913941, 715827883, 1431655765};
 	int jacobsthal_idx = 1;
 
 	std::deque<int>::iterator slice_delim_it;
-	std::deque<std::pair<int, int>>::iterator pair_it;
-	std::deque<std::pair<int, int>>::iterator last_jacob_it = dequey.begin();
+	std::deque<std::pair<int, int> >::iterator pair_it;
+	std::deque<std::pair<int, int> >::iterator last_jacob_it = dequey.begin();
 
 	while (Jacobsthal[jacobsthal_idx] <= dequey.size())
 	{
@@ -278,7 +270,6 @@ void insert_into_main_chain2(std::deque<std::pair<int, int>> dequey, std::deque<
 		while (Jacobsthal[jacobsthal_idx] - insertion_counter > Jacobsthal[jacobsthal_idx - 1])
 		{
 			slice_delim_it = std::find(main_chain->begin(), main_chain->end(), pair_it->second);
-			slice_delim_it--;
 			binary_search_insertion2(main_chain, slice_delim_it, pair_it->first);
 			pair_it--;
 			insertion_counter++;
@@ -294,7 +285,6 @@ void insert_into_main_chain2(std::deque<std::pair<int, int>> dequey, std::deque<
 		while (pair_it != last_jacob_it)
 		{
 			slice_delim_it = std::find(main_chain->begin(), main_chain->end(), pair_it->second);
-			slice_delim_it--;
 			binary_search_insertion2(main_chain, slice_delim_it, pair_it->first);
 			pair_it--;
 		}

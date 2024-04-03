@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: cgodecke <cgodecke@student.42.fr>          +#+  +:+       +#+         #
+#    By: cgodecke <cgodecke@student.42wolfsburg.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/29 20:00:53 by cgodecke          #+#    #+#              #
-#    Updated: 2024/03/29 20:00:57 by cgodecke         ###   ########.fr        #
+#    Updated: 2024/04/03 14:05:28 by cgodecke         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME = PmergeMe
 
 CXX = c++
 
-CXXFLAGS = #-Wall -Wextra -Werror -std=c++98  #-fsanitize=address
+CXXFLAGS = -Wall -Wextra -Werror -std=c++98
 
 SRCS := main.cpp PmergeMe.cpp
 
