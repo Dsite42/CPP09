@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   PmergeMe.cpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cgodecke <cgodecke@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cgodecke <cgodecke@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/29 20:00:26 by cgodecke          #+#    #+#             */
-/*   Updated: 2024/04/02 16:05:40 by cgodecke         ###   ########.fr       */
+/*   Updated: 2024/04/03 13:26:39 by cgodecke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,39 +132,6 @@ void binary_search_insertion(std::list<int> *main_chain, std::list<int>::iterato
 	*/
 }
 
-/* Manual try:
-std::list<int>::iterator find_insert_position(std::list<int>::iterator start, std::list<int>::iterator end, int val)
-{
-	std::list<int>::iterator it;
-	for (it = start; it != end; ++it)
-	{
-		if (*it >= val)
-		{
-			break;
-		}
-	}
-	return it;
-}
-
-
-void	binary_search_insertion(std::list<int> *main_chain, std::list<int>::iterator end, int val)
-{
-	std::list<int>::iterator place_to_insert = find_insert_position(main_chain->begin(), end, val);
-	if (place_to_insert == end)
-		place_to_insert++;
-
-	main_chain->insert(place_to_insert, val);
-	//print main chain
-	//place_to_insert++;
-	std::cout << "main chain with current value: " << val << ": " << "end_interator: " << *end << " place_to_insert: " << *place_to_insert << std::endl;
-	for (std::list<int>::iterator it = main_chain->begin(); it != main_chain->end(); it++)
-	{
-		std::cout << *it << " ";
-	}
-	std::cout << '\n';
-
-}
-*/
 
 void insert_into_main_chain(std::list<std::pair<int, int>> listy, std::list<int> *main_chain, int additional_value)
 {
@@ -186,9 +153,7 @@ void insert_into_main_chain(std::list<std::pair<int, int>> listy, std::list<int>
 		while (Jacobsthal[jacobsthal_idx] - insertion_counter > Jacobsthal[jacobsthal_idx - 1])
 		{
 			slice_delim_it = std::find(main_chain->begin(), main_chain->end(), pair_it->second);
-			// std::cout << "slice_delim_it: " << *slice_delim_it << std::endl;
 			slice_delim_it--;
-			// std::cout << "slice_delim_it--: " << *(slice_delim_it++) << std::endl;
 			binary_search_insertion(main_chain, slice_delim_it, pair_it->first);
 			pair_it--;
 			insertion_counter++;

@@ -6,7 +6,7 @@
 /*   By: cgodecke <cgodecke@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/20 15:32:32 by cgodecke          #+#    #+#             */
-/*   Updated: 2024/04/02 19:14:54 by cgodecke         ###   ########.fr       */
+/*   Updated: 2024/04/03 13:24:30 by cgodecke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ RPN::~RPN()
 {
 }
 
-// Exepctions
+// Exceptions
 RPN::invalidArgument::invalidArgument(const std::string& msg) : std::runtime_error(msg)
 {
 }

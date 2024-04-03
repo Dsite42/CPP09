@@ -6,7 +6,7 @@
 /*   By: cgodecke <cgodecke@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 10:24:49 by cgodecke          #+#    #+#             */
-/*   Updated: 2024/04/02 18:38:21 by cgodecke         ###   ########.fr       */
+/*   Updated: 2024/04/03 13:20:56 by cgodecke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ int main(int argc, char **argv)
 		std::cout << "Usage: ./bitcoin [file]" << std::endl;
 		return (1);
 	}
-	else
 
 	try
 	{
